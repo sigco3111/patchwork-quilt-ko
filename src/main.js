@@ -39,6 +39,15 @@ renderer.autoClear = false;
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFShadowMap;
 document.getElementById('view').appendChild(renderer.domElement);
+// Listened for from the start, not once loaded: the page may go fullscreen while the quilt is still being sewn.
+// The camera and the finishing passes join in once they exist.
+const fitting = [];
+function fitView() {
+  const now = renderer.getSize(new THREE.Vector2());
+  if (now.x !== innerWidth || now.y !== innerHeight) renderer.setSize(innerWidth, innerHeight);
+  for (const fit of fitting) fit();
+}
+addEventListener('resize', fitView);
 
 const scene = new THREE.Scene();
 lap('start');
@@ -53,6 +62,7 @@ const { createWorld } = await (which === 'table' ? import('./table-world.js') : 
 const world = await createWorld({ fabrics, renderer, scene, say, turn });
 const ground = world.ground;
 const camera = new THREE.PerspectiveCamera(30, innerWidth / innerHeight, 0.3, world.far);
+fitting.push(() => { camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); });
 lap('world');
 
 await RAPIER.init();
@@ -81,6 +91,7 @@ physics.step();
 lap('doll');
 
 const post = createPost(renderer);
+fitting.push(() => post.resize());
 Object.assign(post, world.lens);
 world.attach?.(post);
 if (q.has('lens')) post.lens = +q.get('lens');
@@ -175,13 +186,6 @@ window.lab = Object.assign(lab, {
   view(eye, target) { follow.free = eye ? { position: new THREE.Vector3(...eye), target: new THREE.Vector3(...target) } : null; },
 });
 
-addEventListener('resize', () => {
-  renderer.setSize(innerWidth, innerHeight);
-  camera.aspect = innerWidth / innerHeight;
-  camera.updateProjectionMatrix();
-  post.resize();
-});
-
 say('Threading the needle');
 await turn();
 if (!capture) await renderer.compileAsync(scene, camera);
@@ -214,6 +218,7 @@ function run() {
   last = performance.now();
   renderer.setAnimationLoop(shown && !capture ? () => { const now = performance.now(); tick((now - last) / 1000); last = now; if ((timings.live ??= []).length < 6) timings.live.push(Math.round(performance.now() - now)); } : null);
 }
+fitView();
 loaded = true;
 run();
 if (!capture) {
