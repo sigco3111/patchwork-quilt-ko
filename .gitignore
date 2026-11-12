@@ -1,0 +1,11 @@
+node_modules/
+dist/
+shots/*
+!shots/readme.jpg
+!shots/cover.jpg
+!shots/corner.jpg
+!shots/table.jpg
+*.mp4
+*.log
+.env
+.test/
