@@ -186,17 +186,33 @@ say('Threading the needle');
 await turn();
 if (!capture) await renderer.compileAsync(scene, camera);
 lap('shaders');
-tick(1 / 60);
-tick(1 / 60);
-tick(1 / 60);
-// (wait for the card to have really drawn them, so that nothing is still being built when Patch is told it's ready)
-renderer.getContext().readPixels(0, 0, 1, 1, WebGL2RenderingContext.RGBA, WebGL2RenderingContext.UNSIGNED_BYTE, new Uint8Array(4));
+// The first frames are drawn before Patch is told the demo is ready, and each is waited for: the card builds a
+// good deal the first time it draws a thing, after JavaScript has gone on, and that must not land after ready.
+function gpuDone() {
+  const gl = renderer.getContext(), sync = gl.fenceSync(gl.SYNC_GPU_COMMANDS_COMPLETE, 0);
+  gl.flush();
+  return new Promise((resolve) => {
+    const poll = () => {
+      if (gl.clientWaitSync(sync, 0, 0) === gl.TIMEOUT_EXPIRED) return void setTimeout(poll, 4);
+      gl.deleteSync(sync);
+      resolve();
+    };
+    poll();
+  });
+}
+timings.warm = [];
+for (let i = 0; i < (capture ? 3 : 6); i++) {
+  const t = performance.now();
+  tick(1 / 60);
+  if (!capture) { await gpuDone(); say('Threading the needle'); await turn(); }
+  timings.warm.push(Math.round(performance.now() - t));
+}
 lap('first frames');
 
 let last = performance.now();
 function run() {
   last = performance.now();
-  renderer.setAnimationLoop(shown && !capture ? () => { const now = performance.now(); tick((now - last) / 1000); last = now; } : null);
+  renderer.setAnimationLoop(shown && !capture ? () => { const now = performance.now(); tick((now - last) / 1000); last = now; if ((timings.live ??= []).length < 6) timings.live.push(Math.round(performance.now() - now)); } : null);
 }
 loaded = true;
 run();
