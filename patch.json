@@ -1,7 +1,7 @@
 {
 	"project": "blendi/patchwork-quilt",
-	"version": "1.0.1",
-	"channel": "private",
+	"version": "1.0.2",
+	"channel": "public",
 	"files": "dist",
 	"recipe": {
 		"mode": "browser",
