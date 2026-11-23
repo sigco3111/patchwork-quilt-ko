@@ -52,7 +52,7 @@ addEventListener('resize', fitView);
 const scene = new THREE.Scene();
 lap('start');
 
-say('Cutting cloth');
+say('천을 자르는 중');
 await turn();
 const fabrics = createFabrics();
 lap('cloth');
@@ -76,7 +76,7 @@ const physics = new RAPIER.World({ x: 0, y: -9.81, z: 0 });
 }
 lap('physics');
 
-say('Stuffing the doll');
+say('인형에 솜을 넣는 중');
 const doll = await dollComing;
 const { man } = doll;
 scene.add(doll.group);
@@ -186,7 +186,7 @@ window.lab = Object.assign(lab, {
   view(eye, target) { follow.free = eye ? { position: new THREE.Vector3(...eye), target: new THREE.Vector3(...target) } : null; },
 });
 
-say('Threading the needle');
+say('바늘에 실을 꿰는 중');
 await turn();
 if (!capture) await renderer.compileAsync(scene, camera);
 lap('shaders');
@@ -208,7 +208,7 @@ timings.warm = [];
 for (let i = 0; i < (capture ? 3 : 6); i++) {
   const t = performance.now();
   tick(1 / 60);
-  if (!capture) { await gpuDone(); say('Threading the needle'); await turn(); }
+  if (!capture) { await gpuDone(); say('바늘에 실을 꿰는 중'); await turn(); }
   timings.warm.push(Math.round(performance.now() - t));
 }
 lap('first frames');
@@ -230,7 +230,7 @@ if (!capture) {
     if (e.code === 'KeyP') {
       rate = RATES[(RATES.indexOf(rate) + 1) % RATES.length];
       held = 1;
-      mode.textContent = rate ? `${rate} poses a second` : 'Smooth';
+      mode.textContent = rate ? `초당 포즈 ${rate}회` : '부드럽게';
       mode.classList.remove('faded');
       clearTimeout(fade);
       fade = setTimeout(() => mode.classList.add('faded'), 1800);

@@ -22,7 +22,7 @@ export async function createWorld({ fabrics, renderer, scene, say, turn }) {
   rim.position.set(-14, 9, -20);
   scene.add(lamp, lamp.target, rim);
 
-  say('Sewing the quilt');
+  say('퀼트를 바느질하는 중');
   await turn();
   const quilt = createQuilt(fabrics);
   await turn();

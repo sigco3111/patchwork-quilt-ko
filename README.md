@@ -1,58 +1,60 @@
----
-kind: effect
-engine: three.js
----
+# 패치워크 퀼트 한글판 (Patchwork Quilt)
 
-# Patchwork quilt
+![실행 화면: 퀼트 위의 펠트 마을](docs/screenshots/main.png)
 
-Makes a three.js world out of cloth, as if it had been cut, stuffed and sewn by hand and photographed on the table it was made on: a quilt whose every patch is its own puffed pillow, with real seams and a thread for every stitch, felt with fibres standing off it, and a camera that sees it as a small thing. The demo is a small country sewn into one quilt, still being finished, with a rag doll to walk about in it.
+patch.gg의 @blendi가 만든 **Patchwork quilt**의 한글판입니다. 조각조각 바느질한 퀼트가 그대로 작은 세계가 되는 데모로, 펠트 마을과 풍차, 태양 대신 켜 둔 책상 스탠드까지 모든 것이 천으로 만들어져 있습니다. 봉제 인형을 조종해 퀼트 위를 걸어 다닐 수 있습니다.
 
-![A rag doll in a straw hat on a patchwork quilt, looking up at a felt village, a windmill and a desk lamp for a sun](shots/readme.jpg)
+- 원작: https://patch.gg/blendi/patchwork-quilt (코드 MIT, 아트 CC0 1.0)
+- 한글판 실행: https://sigco3111.github.io/patchwork-quilt-ko/
 
-**In the demo:** click to look with the mouse, WASD to move, Shift to sprint, Space to jump, the wheel to step the eye back or in, H hides the hint. A gamepad works too. P changes how often the doll is posed (15 times a second, 24, every frame, 12). There is no sound.
+## 주요 기능
 
-Follow the buttons up the hill to the village, cross the ribbon, go and look at the corner that isn't sewn yet.
+- **퀼트가 곧 세계입니다.** 언덕, 강, 단추 오솔길, 아직 꿰매지 않은 모서리까지 전부 한 조각 한 조각 바느질된 천입니다.
+- **천은 코드로 만듭니다.** 평직, 리넨, 트윌, 코듀로이, 니트, 펠트 조직과 체크, 줄무늬, 꽃무늬 프린트를 전부 코드로 짜고 인쇄합니다.
+- **인형극처럼 움직입니다.** 봉제 인형은 스톱모션처럼 초당 정해진 횟수만큼만 포즈가 찍힙니다. P 키로 초당 포즈 수(15, 24, 매 프레임, 12)를 바꿀 수 있습니다.
+- **연기, 빨랫줄, 풍차 날개, 물결**은 초당 12프레임의 필름처럼 움직입니다.
+- **숨은 장면 두 개:** 주소 뒤에 `?scene=table`(재봉탁 위 첫 퀼트), `?scene=country`(염색한 하늘 아래 온통 들판인 계곡)를 붙이면 다른 장면이 열립니다. `?lens=0`은 초점 흐림 끄기, `?ao=0`은 주름 음영 끄기, `?fps=`는 인형 포즈 간격입니다.
 
-![The corner of the quilt that hasn't been pieced: wadding ruled with chalk, patches pinned in place, the needle still threaded](shots/corner.jpg)
+## 조작
 
-![The whole table: the quilt, three bobble hats for mountains, the lamp, the cutting mat](shots/table.jpg)
+- 클릭해서 둘러보기(마우스), WASD 이동, Shift 달리기, Space 점프
+- 휠: 시점 물러나기/다가가기, H: 안내 문구 숨기기, P: 인형 포즈 속도 바꾸기
+- 게임패드도 됩니다. 소리는 없습니다.
 
-It is a starting point, not a filter. You can't lay it over a finished game: the things in your world are made of cloth here, one by one. Start from this scene, change it, replace it.
+## 실행 화면
 
-## The idea
+| 퀼트 위 마을 | 아직 꿰매지 않은 모서리 |
+|---|---|
+| ![마을](docs/screenshots/village.png) | ![모서리](docs/screenshots/corner.png) |
 
-Nothing is a picture of cloth. What you see is the cloth's own shape, lit like a photograph of something small.
+| 작업탁 전체 | 포즈 속도 안내 |
+|---|---|
+| ![작업탁](docs/screenshots/table.png) | ![포즈 속도](docs/screenshots/mode.png) |
 
-- **A quilt is pieced.** `sewQuilt()` (`src/quilt.js`) cuts every patch as its own mesh on a grid whose corners are a little out of true, puffs it up between its seams (no two stuffed quite alike), pulls it down along the line its quilting runs, and lays a short piece of thread for each stitch. The land is the shape the quilt lies in: give it a function for the heaps under it.
-- **Cloth is made in code.** `src/fabric.js` weaves normal maps thread by thread (plain, linen, twill, corduroy, knit, felt) and prints cotton on a canvas (gingham, stripes, ticking, dots, small flowers, plaid). One unit of a mesh's UV is one unit of the world, so a print is the same size on whatever it is sewn into.
-- **Things lie on things.** `ribbon()` (`src/sew.js`) lays a ribbon or a tape over the real top of the patches, so it drapes over each one and bridges the seams, and rides over the binding at the quilt's edge.
-- **Felt has fuzz.** `fuzz()` scatters fibres over any mesh, and they lie a little differently on every second frame of the film, as they do when a hand has touched the puppet between frames.
-- **The creases are dark.** The camera (`src/post.js`) works out from depth alone where cloth meets cloth, and shades it; then it blurs what is far from the plane of focus, which is what says the world is small; then it develops the picture with a film curve and a little grain.
-- **He is a puppet.** The doll is sewn parts hung on a skeleton. He goes where you send him at once, but his pose is taken only so many times a second and held between, like a stop-motion film. The smoke, the washing, the sails and the water's sequins move on a film of twelve frames a second.
-- **It is on a table.** The lamp, the cutting mat, the shears, the tape measure and the spools are the size they really are. That, and the corner that isn't finished, is what makes it a thing somebody is making.
+## 설치 및 실행
 
-## Use it
+정적 사이트라 빌드 결과물(`dist/`)만 있으면 됩니다. 이 저장소의 `gh-pages` 브랜치가 그대로 배포본입니다.
 
-```
+직접 빌드하려면:
+
+```bash
 npm install
-npm run build        # dist/, the demo as it is published
-npm run serve        # http://127.0.0.1:5412/
+npm run build   # dist/ 생성 (index.html이 최상위)
+npm run serve   # http://127.0.0.1:5412/
 ```
 
-- `src/making/world.js` puts the demo together: what is built where, what grows, the light. Start there.
-- `src/making/land.js` is the lie of the quilt: its hills, the river's line, the button path, the corner left unsewn.
-- `src/country/buildings.js` and `src/country/nature.js` are the makers (cottage, church, windmill, washing line; pom-pom trees, felt firs, sheep, fringe grass, the river, clouds). Each takes a `kit` that says what land it stands on, so they work on any quilt.
-- `src/making/room.js` and `src/making/work.js` are the table, the room and the work in progress.
-- `src/doll.js` and `src/cape.js` are the rag doll and his felt cape.
-- Two more scenes are in the code and open by address: `?scene=table` (a smaller quilt, the first one made) and `?scene=country` (a whole valley of fields under a dyed sky).
-- `?lens=0` turns off the focus blur and `?ao=0` the shading of the creases, for looking at the making. `?fps=` sets how often the doll is posed.
+## 기술 노트
 
-The tools in `tools/` take stills and films of the built demo with a headless Chromium (`CHROME` names one of your own): `sh tools/go.sh --name still` builds and takes one.
+- three.js 0.186.1, 물리는 Rapier(Apache-2.0). 다운로드 약 9MB.
+- `src/making/world.js`가 데모 전체를 조립하고, `src/making/land.js`가 퀼트의 지형을, `src/quilt.js`가 조각과 바늘땀을 만듭니다.
+- 번역 범위: 로딩 진행 문구 9종, 조작 안내(힌트), 포즈 속도 표시(`초당 포즈 N회`/`부드럽게`), 페이지 제목 등 코드베이스의 사용자 노출 문자열 전체. 동작과 상호작용은 원작과 같습니다.
+- 원작은 설정 패널이 없는 데모라(patch.gg 호스트와 로딩/준비 신호만 주고받음) 별도 패널 없이 원본 구성 그대로 단독 배포했습니다.
+- 원본 README(영문): `README.en.md`
 
-## What it costs
+## 라이선스 및 원작 크레딧
 
-About 7 ms a frame at 1080p on a fast desktop card, most of it the quilt's 1,270 patches and their 18,000 stitches drawn twice (once for the lamp's shadows). It has not been measured on a laptop. The demo is about 9 MB to download: the doll's skeleton and clips are 3.6 MB of it and the physics engine 2 MB.
-
-## Licence
-
-Code MIT, art CC0 1.0. Everything sewn is made in code. The doll moves on Patch's starter man's skeleton with clips from Quaternius' Universal Animation Library and Patch's own, all CC0. Physics is Rapier (Apache-2.0). `LICENCE-NOTES.md` has every part and where it came from.
+- 이 저장소의 코드: MIT (원작과 동일, `LICENSE` 참고)
+- 아트: CC0 1.0. 보이는 천 소품은 전부 코드로 만들어집니다.
+- 인형의 골격과 동작: Patch의 스타터 골격 + Quaternius의 Universal Animation Library + Patch 자체 클립(모두 CC0)
+- 물리 엔진: Rapier, Apache-2.0 (`RAPIER-LICENSE.txt`)
+- 부분별 출처: `LICENCE-NOTES.md`, `public/CREDITS.md`

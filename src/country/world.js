@@ -34,7 +34,7 @@ export async function createWorld({ fabrics, renderer, scene, say, turn }) {
   };
 
   // --- what is built (first: each presses the ground level where it stands, before the fields are cut) ---
-  say('Building the village');
+  say('마을을 짓는 중');
   await turn();
   const SLATE = ['#4f6278', '#5b6f86', '#6b819a', '#5b6f86', '#7b90a8'], THATCH = ['#b98a3a', '#c9a04a', '#d9b35a', '#b98a3a', '#a87a30', '#e3c06a'], RUST = ['#8e3a2a', '#b9482f', '#a23d2a', '#c8694a', '#b9482f', '#d9a43a'];
   const BUILT = [
@@ -58,7 +58,7 @@ export async function createWorld({ fabrics, renderer, scene, say, turn }) {
   for (const [make, o] of BUILT) make(kit, o);
 
   // --- the land ---
-  say('Piecing the fields');
+  say('들판을 잇는 중');
   await turn();
   const fields = createFields(fabrics);
   group.add(fields.group);
@@ -67,7 +67,7 @@ export async function createWorld({ fabrics, renderer, scene, say, turn }) {
   road(kit, ROAD);
 
   // --- what grows ---
-  say('Winding pom-poms');
+  say('폼폼을 감는 중');
   await turn();
   const AUTUMN = ['#d9762f', '#e3a53a', '#c2473d'], GOLD = ['#e3b54a', '#d9a43a', '#f0dc9c'], GREEN = ['#5d9a52', '#7fb060', '#3f6f4c'], ROSE = ['#c2473d', '#d9765f', '#e4a8a2'], LIME = ['#8fb15c', '#b9c96a', '#5d9a52'], PLUM = ['#8a5a8a', '#b07aa6', '#6f4a7a'];
   const FIRS = [['#3f6f4c', '#4f8a4a', '#5d9a52'], ['#4f8a4a', '#5d9a52', '#6f9150'], ['#2f5f44', '#3f6f4c', '#4f8a4a'], ['#3f6f4c', '#5d9a52', '#6f9150']];
@@ -106,7 +106,7 @@ export async function createWorld({ fabrics, renderer, scene, say, turn }) {
   flowers(kit, Array.from({ length: 26 }, (_, i) => { const [x, z] = [[3.5, 52], [0, 46], [7, 43], [-3, 36], [-8, 30], [-11, 22], [-3, 13], [2, 6.5], [6, 0], [3, -8], [8, -13], [3, -19], [11, -21]][i % 13]; return [x + (rand() - 0.5) * 6, z + (rand() - 0.5) * 5, 5 + Math.floor(rand() * 6), 0.9]; }));
 
   // --- what stands round it ---
-  say('Knitting the mountains');
+  say('산을 뜨는 중');
   await turn();
   const { spool, pincushion } = sewingThings(kit);
   spool(FARM.x - 4, FARM.z - 3, '#c2473d', 3.6, true);

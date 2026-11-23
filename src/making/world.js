@@ -37,7 +37,7 @@ export async function createWorld({ fabrics, renderer, scene, say, turn }) {
   };
 
   // --- what is built (each presses the quilt level where it stands, so every site is marked before anything is sewn) ---
-  say('Building the village');
+  say('마을을 짓는 중');
   await turn();
   const SLATE = ['#4f6278', '#5b6f86', '#6b819a', '#5b6f86', '#7b90a8'], THATCH = ['#b98a3a', '#c9a04a', '#d9b35a', '#b98a3a', '#a87a30', '#e3c06a'], RUST = ['#8e3a2a', '#b9482f', '#a23d2a', '#c8694a', '#b9482f', '#d9a43a'];
   const BUILT = [
@@ -53,7 +53,7 @@ export async function createWorld({ fabrics, renderer, scene, say, turn }) {
   for (const [make, o] of BUILT) make(kit, o);
 
   // --- the quilt ---
-  say('Sewing the quilt');
+  say('퀼트를 바느질하는 중');
   await turn();
   const quilt = sewQuilt(fabrics, Q, mound, { seed: 20261113, uneven: true, skip: unsewn, unbound: (x, z) => (z > 15 && x < -11.9) || (x < -20.5 && z > 7.6) });
   group.add(quilt.group);
@@ -97,7 +97,7 @@ export async function createWorld({ fabrics, renderer, scene, say, turn }) {
   }
 
   // --- what grows and grazes ---
-  say('Winding pom-poms');
+  say('폼폼을 감는 중');
   await turn();
   const AUTUMN = ['#d9762f', '#e3a53a', '#c2473d'], GOLD = ['#e3b54a', '#d9a43a', '#f0dc9c'], GREEN = ['#5d9a52', '#7fb060', '#3f6f4c'], ROSE = ['#c2473d', '#d9765f', '#e4a8a2'], PLUM = ['#8a5a8a', '#b07aa6', '#6f4a7a'];
   for (const [x, z, r, h, c] of [[9.6, 9.4, 1.05, 1.7, AUTUMN], [-13.6, 8.4, 0.9, 1.5, GOLD], [-14.2, -7.6, 1.0, 1.6, GREEN], [8, -13.2, 0.85, 1.4, ROSE], [16.8, -2.6, 0.95, 1.5, GREEN], [-5.2, 11.8, 0.7, 1.1, ROSE], [17.6, 11.2, 0.8, 1.3, GOLD], [-18.2, -11.6, 0.9, 1.5, AUTUMN], [-0.4, -13, 0.8, 1.3, PLUM]]) pomTree(kit, x, z, r, h, c);
@@ -112,7 +112,7 @@ export async function createWorld({ fabrics, renderer, scene, say, turn }) {
   clouds(kit, [[-10.5, 9.6, -12, 1.5, 1], [6.5, 10.6, -14.5, 1.8, 2], [16.5, 8.4, -9, 1.2, 3], [-17.5, 8.2, -4, 1.1, 4], [-1.5, 11.4, -9, 1.0, 5]], 0, 0.3, 0.45);
 
   // --- the table, the room, and what lies about ---
-  say('Tidying the table');
+  say('작업대를 정리하는 중');
   await turn();
   const LAMP = V(13.5, 12.6, -21), AIM = V(0, 1, -3);
   createRoom(kit, { lamp: LAMP, aim: AIM });
